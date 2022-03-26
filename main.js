@@ -19,16 +19,16 @@ const dataBlob = []
 
 const setVideoPreview = (video) => {
   if (video) {
-    const errorMsg = document.querySelector('#errorMsg');
+    // const errorMsg = document.querySelector('#errorMsg');
 
-    console.log(video)
+    // console.log(video)
 
-    const canvas = document.querySelector('#canvas-preview')
+    const canvasss = document.querySelector('#canvas-preview')
 
-    errorMsg.innerHTML += `<div>video.videoHeight ${video.videoHeight}</div>`
-    errorMsg.innerHTML += `<div>video.videoWidth ${video.videoWidth}</div>`
+    // errorMsg.innerHTML += `<div>video.videoHeight ${video.videoHeight}</div>`
+    // errorMsg.innerHTML += `<div>video.videoWidth ${video.videoWidth}</div>`
 
-    // const squareSize =
+    // // const squareSize =
     //   video.videoWidth > video.videoHeight
     //     ? video.videoHeight
     //     : video.videoWidth
@@ -41,23 +41,19 @@ const setVideoPreview = (video) => {
     // errorMsg.innerHTML += `<div>imageWidth ${imageWidth}</div>`
     // errorMsg.innerHTML += `<div>imageHeight ${imageHeight}</div>`
 
-    canvas.width = video.videoHeight
-    canvas.height = video.videoWidth 
+    // canvas.width = video.videoHeight
+    // canvas.height = video.videoWidth 
 
-    const context = canvas.getContext('2d')
+    // const context = canvas.getContext('2d')
 
-    errorMsg.innerHTML += `<div>context ${context}</div>`
+    // errorMsg.innerHTML += `<div>context ${context}</div>`
 
-    if (context) {
-      context.rotate((90 * Math.PI) / 180)
-      context.drawImage(
-        video,
-        0,
-        -canvas.width,
-        canvas.width,
-        canvas.height
-      )
-    }
+
+    window.html2canvas(video).then(function(canvas) {
+      canvasss.insertAdjacentElement("beforeend", canvas);
+  });
+
+
   }
 }
 
