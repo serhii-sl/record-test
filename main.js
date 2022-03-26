@@ -80,21 +80,10 @@ const startRecording = (stream) => {
     video.load()
     video.currentTime = 0.5;
     
-    video.onseeked = () => setTimeout(() => {
-      setVideoPreview(video)
-      console.log('onseeked')
-    }, 2000)
-
-
     video.addEventListener('canplay', () => setTimeout(() => {
       setVideoPreview(video)
       console.log('canplay')
-    }, 2000))
-
-    video.addEventListener('loadedmetadata', () => setTimeout(() => {
-      setVideoPreview(video)
-      console.log('loadedmetadata')
-    }, 2000))
+    }, 800))
   })
 }
 
