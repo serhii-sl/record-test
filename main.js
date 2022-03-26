@@ -10,10 +10,7 @@ const RESULT_IMAGE_SIZE = 300
 
 const constraints = window.constraints = {
   audio: false,
-  video:  {
-    facingMode: {
-      exact: 'environment'
-    }}
+  video: true
 };
 
 const dataBlob = []
@@ -53,9 +50,35 @@ const setVideoPreview = (video) => {
 
 const options = {mimeType: 'video/mp4; codecs="avc1.424028, mp4a.40.2"'};
 
-
+console.log(navigator)
 const startRecording = (stream) => {
   const recorder = new MediaRecorder(stream, options)
+
+  var types = ['video/webm',
+             'video/webm; codec=vp8',
+             'video/webm; codec=daala',
+             'video/webm; codec=h264',
+             'audio/webm; codec=opus',
+             'video/mpeg',
+             'video/mp4; codec=vp8',
+             'video/mp4; codec=daala',
+             'video/mp4; codec=h264',
+             'audio/mp4; codec=opus',
+             'video/mpeg; codec=vp8',
+             'video/mpeg; codec=daala',
+             'video/mpeg; codec=h264',
+             'audio/mpeg; codec=opus',
+             'video/mp4; codec=avc1.4d002a',
+             'video/mp4; codec=avc1.424028',
+             'video/mp4; codec=mp4a.40.2',
+             'video/mp4; codecs="avc1.424028, mp4a.40.2"'];
+
+for (var i in types) {
+  const errorMsg = document.querySelector('#errorMsg');
+  const text =  "Is " + types[i] + " supported? " + (MediaRecorder.isTypeSupported(types[i]) ? "Maybe!" : "Nope :(")
+  errorMsg.innerHTML += `<div>${text}</div>`
+  console.log( "Is " + types[i] + " supported? " + (MediaRecorder.isTypeSupported(types[i]) ? "Maybe!" : "Nope :("));
+}
 
   recorder.ondataavailable = (event) => dataBlob.push(event.data)
   recorder.start()
@@ -86,7 +109,7 @@ const startRecording = (stream) => {
     video.addEventListener('canplay', () => setTimeout(() => {
       setVideoPreview(video)
       console.log('canplay')
-    }, 800))
+    }, 1800))
   })
 }
 
