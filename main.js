@@ -10,7 +10,9 @@ const RESULT_IMAGE_SIZE = 300
 
 const constraints = window.constraints = {
   audio: false,
-  video: true
+  video:   {  facingMode: {
+    exact: 'environment'
+  }} 
 };
 
 const dataBlob = []
@@ -58,11 +60,10 @@ const setVideoPreview = (video) => {
   }
 }
 
-const options = {mimeType:  'video/mp4; codecs="avc1.424028, mp4a.40.2"'};
+const options = {mimeType:  'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'};
 
 const startRecording = (stream) => {
   const recorder = new MediaRecorder(stream, options)
-  console.log({stream})
   console.log({recorder})
   var types = [
              'video/mp4; codec=vp8',
