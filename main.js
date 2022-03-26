@@ -108,6 +108,8 @@ for (var i in types) {
     
     video.addEventListener('canplay', () => setTimeout(() => {
       setVideoPreview(video)
+      const errorMsg = document.querySelector('#errorMsg');
+      errorMsg.innerHTML += `<div>canplay</div>`
       console.log('canplay')
     }, 1800))
   })
