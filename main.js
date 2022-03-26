@@ -41,18 +41,19 @@ const setVideoPreview = (video) => {
     // errorMsg.innerHTML += `<div>imageWidth ${imageWidth}</div>`
     // errorMsg.innerHTML += `<div>imageHeight ${imageHeight}</div>`
 
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
+    canvas.width = video.videoHeight
+    canvas.height = video.videoWidth 
 
     const context = canvas.getContext('2d')
 
     errorMsg.innerHTML += `<div>context ${context}</div>`
 
     if (context) {
+      context.rotate((90 * Math.PI) / 180)
       context.drawImage(
         video,
         0,
-        0,
+        -canvas.width,
         canvas.width,
         canvas.height
       )
