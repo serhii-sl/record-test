@@ -51,8 +51,11 @@ const setVideoPreview = (video) => {
   }
 }
 
+const options = {mimeType: 'video/mp4; codecs="avc1.424028, mp4a.40.2"'};
+
+
 const startRecording = (stream) => {
-  const recorder = new MediaRecorder(stream)
+  const recorder = new MediaRecorder(stream, options)
 
   recorder.ondataavailable = (event) => dataBlob.push(event.data)
   recorder.start()
