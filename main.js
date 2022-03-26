@@ -82,6 +82,22 @@ const startRecording = (stream) => {
     
     video.onseeked = () => setTimeout(() => {
       setVideoPreview(video)
+      console.log('onseeked')
+    }, 1000)
+
+    video.onseeked = () => setTimeout(() => {
+      setVideoPreview(video)
+      console.log('canplay')
+    }, 1000)
+
+    video.ondataavailable = () => setTimeout(() => {
+      setVideoPreview(video)
+      console.log('ondataavailable')
+    }, 1000)
+
+    video.loadedmetadata = () => setTimeout(() => {
+      setVideoPreview(video)
+      console.log('loadedmetadata')
     }, 1000)
   })
 }
