@@ -17,57 +17,58 @@ const dataBlob = []
 
 const setVideoPreview = (video) => {
   if (video) {
+    const errorMsg = document.querySelector('#errorMsg');
+
+    console.log(video)
+
     const canvas = document.querySelector('#canvas-preview')
 
-    const squareSize =
-      video.videoWidth > video.videoHeight
-        ? video.videoHeight
-        : video.videoWidth
+    errorMsg.innerHTML += `<div>video.videoHeight ${video.videoHeight}</div>`
+    errorMsg.innerHTML += `<div>video.videoWidth ${video.videoWidth}</div>`
 
-    const imageWidth = (video.videoWidth - squareSize) / 2
-    const imageHeight = (video.videoHeight - squareSize) / 2
+    // const squareSize =
+    //   video.videoWidth > video.videoHeight
+    //     ? video.videoHeight
+    //     : video.videoWidth
 
-    canvas.width = RESULT_IMAGE_SIZE
-    canvas.height = RESULT_IMAGE_SIZE
+    // errorMsg.innerHTML += `<div>squareSize ${squareSize}</div>`
+
+    // const imageWidth = (video.videoWidth - squareSize) / 2
+    // const imageHeight = (video.videoHeight - squareSize) / 2
+
+    // errorMsg.innerHTML += `<div>imageWidth ${imageWidth}</div>`
+    // errorMsg.innerHTML += `<div>imageHeight ${imageHeight}</div>`
+
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
 
     const context = canvas.getContext('2d')
+
+    errorMsg.innerHTML += `<div>context ${context}</div>`
 
     if (context) {
       context.drawImage(
         video,
-        imageWidth,
-        imageHeight,
-        squareSize,
-        squareSize,
         0,
         0,
-        RESULT_IMAGE_SIZE,
-        RESULT_IMAGE_SIZE
+        canvas.width,
+        canvas.height
       )
     }
   }
 }
 
-const options = {mimeType: 'video/mp4; codecs="avc1.424028, mp4a.40.2"'};
+const options = {mimeType:  'video/mp4; codecs="avc1.424028, mp4a.40.2"'};
 
-console.log(navigator)
 const startRecording = (stream) => {
   const recorder = new MediaRecorder(stream, options)
-
-  var types = ['video/webm',
-             'video/webm; codec=vp8',
-             'video/webm; codec=daala',
-             'video/webm; codec=h264',
-             'audio/webm; codec=opus',
-             'video/mpeg',
+  console.log({stream})
+  console.log({recorder})
+  var types = [
              'video/mp4; codec=vp8',
              'video/mp4; codec=daala',
              'video/mp4; codec=h264',
              'audio/mp4; codec=opus',
-             'video/mpeg; codec=vp8',
-             'video/mpeg; codec=daala',
-             'video/mpeg; codec=h264',
-             'audio/mpeg; codec=opus',
              'video/mp4; codec=avc1.4d002a',
              'video/mp4; codec=avc1.424028',
              'video/mp4; codec=mp4a.40.2',
@@ -95,23 +96,31 @@ for (var i in types) {
   return stopped.then(() => {
     const recordedBlob = new Blob(dataBlob, { type: 'video/mp4' })
 
-    const recordedVideo = URL.createObjectURL(recordedBlob)
+
+    const fileObj = new File([recordedBlob], "recording.mp4", {type:  'video/mp4'});
+    const fileObjUrl = URL.createObjectURL(fileObj)
+
+    const errorMsg = document.querySelector('#errorMsg');
+    const download = document.querySelector('#download');
+    download.href = fileObjUrl
+  
     
     const video = document.querySelector('#recorder-preview');
     const playPreview = document.querySelector('#play-preview');
 
     playPreview.addEventListener('click', () => video.play());
 
-    video.src = recordedVideo;
+    video.src = fileObjUrl;
     video.load()
-    video.currentTime = 0.5;
+    video.currentTime = 1.5;
     
     video.addEventListener('canplay', () => setTimeout(() => {
       setVideoPreview(video)
       const errorMsg = document.querySelector('#errorMsg');
       errorMsg.innerHTML += `<div>canplay</div>`
       console.log('canplay')
-    }, 1800))
+
+    }, 2800))
   })
 }
 
